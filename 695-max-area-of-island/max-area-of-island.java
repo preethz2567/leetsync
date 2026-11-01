@@ -30,36 +30,26 @@ class Solution {
 
         int area = 1;
 
-        // Check UP
-        if (row - 1 >= 0 &&
-            grid[row - 1][col] == 1 &&
-            !visited[row - 1][col]) {
+        // UP, DOWN, LEFT, RIGHT
+        int[] rowDir = {-1, 1, 0, 0};
+        int[] colDir = {0, 0, -1, 1};
 
-            area += dfs(grid, row - 1, col, visited);
-        }
+        for (int i = 0; i < 4; i++) {
 
-        // Check DOWN
-        if (row + 1 < grid.length &&
-            grid[row + 1][col] == 1 &&
-            !visited[row + 1][col]) {
+            int newRow = row + rowDir[i];
+            int newCol = col + colDir[i];
 
-            area += dfs(grid, row + 1, col, visited);
-        }
+            // Check boundaries
+            if (newRow >= 0 && newRow < grid.length &&
+                newCol >= 0 && newCol < grid[0].length) {
 
-        // Check LEFT
-        if (col - 1 >= 0 &&
-            grid[row][col - 1] == 1 &&
-            !visited[row][col - 1]) {
+                // Check whether it is unvisited land
+                if (grid[newRow][newCol] == 1 &&
+                    !visited[newRow][newCol]) {
 
-            area += dfs(grid, row, col - 1, visited);
-        }
-
-        // Check RIGHT
-        if (col + 1 < grid[0].length &&
-            grid[row][col + 1] == 1 &&
-            !visited[row][col + 1]) {
-
-            area += dfs(grid, row, col + 1, visited);
+                    area += dfs(grid, newRow, newCol, visited);
+                }
+            }
         }
 
         return area;
